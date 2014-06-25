@@ -1,0 +1,66 @@
+from __future__ import unicode_literals
+
+from django.db import models
+
+class Cubo(models.Model):
+    cuboid = models.AutoField(primary_key=True,db_column='CuboID') # Field name made lowercase.
+    cubonombre = models.CharField(db_column='CuboNombre', max_length=60) # Field name made lowercase.
+    cubonombretabla = models.CharField(db_column='CuboNombreTabla', max_length=60) # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Cubo'
+
+class Dimension(models.Model):
+    dimid = models.AutoField(primary_key=True,db_column='DimID') # Field name made lowercase.
+    dimnombre = models.CharField(db_column='DimNombre', max_length=60) # Field name made lowercase.
+    dimnombretabla = models.CharField(db_column='DimNombreTabla', max_length=60) # Field name made lowercase.
+    cuboid = models.ForeignKey(Cubo, db_column='CuboID') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Dimension'
+
+class Ejehorizontal(models.Model):
+    ejhoid = models.AutoField(primary_key=True,db_column='EjHoID') # Field name made lowercase.
+    jeraid = models.ForeignKey('Jerarquia', db_column='JeraID') # Field name made lowercase.
+    grafid = models.ForeignKey('Grafico', db_column='GrafID') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'EjeHorizontal'
+
+class Ejevertical(models.Model):
+    ejveid = models.AutoField(primary_key=True,db_column='EjVeID') # Field name made lowercase.
+    mediid = models.ForeignKey('Medida', db_column='MediID') # Field name made lowercase.
+    grafid = models.ForeignKey('Grafico', db_column='GrafID') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'EjeVertical'
+
+class Grafico(models.Model):
+    grafid = models.AutoField(primary_key=True,db_column='GrafID') # Field name made lowercase.
+    grafnombre = models.CharField(db_column='GrafNombre', max_length=60) # Field name made lowercase.
+    graftipo = models.CharField(db_column='GrafTipo', max_length=60) # Field name made lowercase.
+    grafsql = models.CharField(db_column='GrafSQL', max_length=200, blank=True) # Field name made lowercase.
+    grafnombretabla = models.CharField(db_column='GrafNombreTabla', max_length=60, blank=True) # Field name made lowercase.
+    grafnombreimagen = models.CharField(db_column='GrafNombreImagen', max_length=64, blank=True) # Field name made lowercase.
+    cuboid = models.ForeignKey(Cubo, db_column='CuboID') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Grafico'
+
+class Jerarquia(models.Model):
+    jeraid = models.AutoField(primary_key=True,db_column='JeraID') # Field name made lowercase.
+    jeranombre = models.CharField(db_column='JeraNombre', max_length=60) # Field name made lowercase.
+    jeranombretabla = models.CharField(db_column='JeraNombreTabla', max_length=60) # Field name made lowercase.
+    dimid = models.ForeignKey(Dimension, db_column='DimID') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Jerarquia'
+
+class Medida(models.Model):
+    mediid = models.AutoField(primary_key=True,db_column='MediID') # Field name made lowercase.
+    medinombre = models.CharField(db_column='MediNombre', max_length=60) # Field name made lowercase.
+    medinombretabla = models.CharField(db_column='MediNombreTabla', max_length=60) # Field name made lowercase.
+    cuboid = models.ForeignKey(Cubo, db_column='CuboID') # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Medida'

@@ -1,0 +1,17 @@
+<html>
+<head>
+    Página principal
+</head>
+<body>
+    {% load staticfiles %}
+    <img src="{% static "imagenes/graf.png" %}" alt="My image"/> <BR>
+
+
+    <form id="formCambio" action="." method="POST">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+        <input type="submit" value="Cambiar">
+    </form>
+
+</body>
+</html>
